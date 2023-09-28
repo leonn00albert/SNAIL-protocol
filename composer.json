@@ -1,0 +1,15 @@
+{
+    "name": "leon/snail",
+    "autoload": {
+        "psr-4": {
+            "Snail\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "leon",
+            "email": "leona202307@proton.me"
+        }
+    ],
+    "require": {}
+}
