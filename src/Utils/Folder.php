@@ -2,6 +2,8 @@
 
 namespace Snail\Utils;
 
+use Exception;
+
 class Folder
 {
     static function copy(string $source, string $destination): void
@@ -50,6 +52,36 @@ class Folder
             return true;
         } else {
             return false;
+        }
+    }
+
+    public static function isEmpty(string $directoryPath): bool
+    {
+        if (is_dir($directoryPath)) {
+            $items = scandir($directoryPath);
+
+            $itemCount = count($items) - 2;
+
+            if ($itemCount <= 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            throw new Exception("The directory does not exist. ");
+        }
+    }
+
+    public static function getFileNames(string $directoryPath): array
+    {
+        if (is_dir($directoryPath)) {
+            $items = scandir($directoryPath);
+            $files = array_filter($items, function ($item) use ($directoryPath) {
+                return is_file($directoryPath . '/' . $item);
+            });
+            return $files;
+        } else {
+            throw new Exception("The directory does not exist. ");
         }
     }
 }

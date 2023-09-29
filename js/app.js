@@ -11,8 +11,8 @@ document.addEventListener("DOMContentLoaded", () => {
 		button.style.display = "none";
 		const resource = {};
 		resource.name = button.getAttribute("resource-name");
-		resource.id  = button.getAttribute("resource-id");
-		resource.type = button.getAttribute("resource-type");
+		resource.resource_id  = button.getAttribute("resource-id");
+		resource.resource_type = button.getAttribute("resource-type");
 		resource.destination = button.getAttribute("resource-destination");
 		
 		const existingCookie = document.cookie.replace(/(?:(?:^|.*;\s*)requestedResources\s*\=\s*([^;]*).*$)|^.*$/, "$1");
@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		if (resource) {
 			if (!requestedResources.some(res => res.id === resource.id && res.type === resource.type)) {
 				requestedResources.push(resource);
-				setCookie("requestedResources", JSON.stringify(requestedResources), 365);
+				setCookie("requestedResources", requestedResources, 365);
 			}
 	  
 		}

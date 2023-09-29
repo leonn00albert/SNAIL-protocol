@@ -3,10 +3,10 @@ namespace Snail\Controllers;
 use Snail\Packet\Resource;
 
 class ResourceController {
-    public static function create(array $data): Resource
+    public static function create(object $data): Resource
     {
-        $id = $data['resource_id'];
-        $type = $data['resource_type'];
+        $id = $data->id;
+        $type = $data->type;
         $resource = new Resource($id, $type);
         return $resource;
     }

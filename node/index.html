@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Node</title>
+    <link rel="stylesheet" href="/css/skelet.css">
+    <link rel="stylesheet" href="/css/app.css">
+
+</head>
+
+<body>
+    <main>
+        <article>
+            
+            <div style="text-align: center; width: 200px; margin: 0 auto;">
+                <h1>Node</h1>
+                <label>Node address:</label>
+                <input type="text" id="nodeAddress" name="node_address" value="http://localhost:8000" />
+            </div>
+            <x-grid columns="2" style="max-width: 750px; margin:0 auto; padding:2rem">
+                <x-col span-s="row">
+                    <h3>Requests</h3>
+                    <ul id="requestDisplay">
+
+                    </ul>
+                    <button id="sendRequestButton" >Send stored requests</button>
+                 
+                </x-col>
+                <x-col span-s="row">
+                    <h3>Responses</h3>
+                    <ul id="responseDisplay">
+
+                    </ul>
+                </x-col>
+            </x-grid>
+        </article>
+    </main>
+    <script src="/js/modules/node.js"></script>
+</body>
+
+</html>

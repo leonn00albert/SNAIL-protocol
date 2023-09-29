@@ -20,30 +20,49 @@ class Node
         foreach ($jsonFiles as $jsonFile) {
             $jsonData = file_get_contents($jsonFile);
 
-            $requestData = json_decode($jsonData, true);
+            $requestData = json_decode($jsonData);
 
             if ($requestData !== null) {
                 $header_options = [
                     "method" => "GET"
                 ];
-                $packet = new Packet();
-                $resource = new Resource($requestData['resource_id'], $requestData['resource_type']);
-                $packet->destination = $requestData["resource_destination"];
-                $packet->createPacket();
-                $request = new Request($packet, $resource, $header_options);
-                $request->createFile();
-
-                if (in_array($requestData["resource_type"], ["page", "pages"])) {
-                    $resource_address = $GLOBALS['base_path'] . "/pages/" . $requestData["resource_destination"];
+            
+                if (in_array($requestData->resource->resource_type, ["page", "pages"])) {
+                    $resource_address = $GLOBALS['base_path'] . "/pages/" . $requestData->destination;
                     if (is_dir($resource_address)) {
+                        $header = [
+                            'status' => 200,
+                            'destination' => $requestData->source,
+                            'source' => 'node',
+
+                        ];
+                        $requestData->destination = $header['destination'];
+                        $resource = new Resource($requestData->resource->resource_id, $requestData->resource->resource_type,);
                         $resource->resource_path = $resource_address;
-                        $response = new Response($packet, $resource, ["status" => 200]);
-                        $response->createFile();
+                        $packet = new Packet($requestData);
+                        $packet->createPacket();
+                        $packet->addResponse(new Response($packet,$resource,  $header) );
+                        $packet->writeFiles();
                         Folder::copy($resource_address, $packet->packet_file_path . "/data");
                         $packet->zip();
                         $packet->clear();
+                    }else{
+                        $header = [
+                            'status' => 300,
+                            'destination' => $requestData->destination,
+                            'source' => 'node',
+
+                        ];
+                        $packet = new Packet($requestData);
+                        $packet->createPacket();
+                        $resource = new Resource($requestData->resource->resource_id, $requestData->resource->resource_type,);
+                        $resource->resource_path = $requestData->destination;
+                        $packet->addResponse(new Response($packet,$resource, $header) );
+                        $packet->writeFiles();
+                        //$packet->zip();
+                        //$packet->clear();
                     }
-                
+
                 }
         
             }

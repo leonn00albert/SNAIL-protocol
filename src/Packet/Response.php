@@ -4,7 +4,9 @@ namespace Snail\Packet;
 class Response {
     private string $id;
     private string $status;
-    private string $request_file = 'response.json';
+    private string $source;
+    private string $destination;
+    const  FILE_NAME = 'response.json';
 
     public function __construct(private Packet $packet, private Resource $resource , array $header_options)
     {
@@ -12,21 +14,25 @@ class Response {
         $this->resource = $resource;
         $this->packet = $packet;
         $this->status = $header_options["status"];
+        $this->source = $header_options["source"];
+        $this->destination = $header_options["destination"];
     }
 
-    public function createFile()
+    public static function createFile(array $data, string $path)
     {
-        $header = $this->buildHeader();
-        file_put_contents($this->packet->packet_file_path . "/" . $this->request_file,json_encode($header));
+    
+        file_put_contents($path. "/" . Response::FILE_NAME,json_encode($data));
         
     }
 
-    private function buildHeader():array{
+    public function buildHeader():array{
         return [
         "id" => $this->id,
         "resource_type" => $this->resource->resource_type,
         "resource_id" => $this->resource->resource_id,
         "resource_path" => $this->resource->resource_path,
+        "destination" => $this->destination,
+        "source" => $this->source,
         "status" => $this->status,
         ];
     }

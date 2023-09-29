@@ -9,7 +9,7 @@ class Request
     private string $id;
     private string $method;
     private array $accepted_file_types = ['zip'];
-    private string $request_file = 'request.json';
+    const FILE_NAME = 'request.json';
 
     public function __construct(private Packet $packet, private Resource $resource , array $header_options)
     {
@@ -18,14 +18,13 @@ class Request
         $this->packet = $packet;
         $this->method = $header_options["method"];
     }
-    public function createFile()
+    public static function createFile(array $data, string $path)
     {
-        $header = $this->buildHeader();
-        file_put_contents($this->packet->packet_file_path . "/" . $this->request_file,json_encode($header));
+    
+        file_put_contents($path. "/" . Request::FILE_NAME,json_encode($data));
         
     }
-
-    private function buildHeader():array{
+    public function buildHeader():array{
         return [
         "id" => $this->id,
         "resource_type" => $this->resource->resource_type,
