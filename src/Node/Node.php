@@ -10,9 +10,47 @@ use Snail\Utils\Folder;
 
 class Node
 {
-
+    private string $id;
     private string $inbox_folder = __DIR__ . "/../../packets/inbox";
     private string $outbox_folder = __DIR__ . "/../../packets/outbox";
+    const NODE_FILE = 'node.json';
+    const ROUTING_FILE = 'routing.json';
+    const CONNECTED_FILE = 'connected.json';
+    const LOG_FILE = 'log.json';
+    public static function create() {
+        if(!is_file($GLOBALS["base_path"] ."/node/" . self::NODE_FILE)){
+            $data = [
+                'id' => uniqid(),
+                'type' => 'individual',
+                'sync_rate' => 24,
+                'sync_unit' => 'hour',
+                'created_at' => time(),
+                'disconnect_time' => (24  * 7),
+                'last_sync' => "",
+            ];
+            file_put_contents($GLOBALS["base_path"] ."/node/" . self::NODE_FILE, json_encode($data));
+        }
+        if(!is_file($GLOBALS["base_path"] ."/node/" . self::ROUTING_FILE)){
+            $data = [
+                "connected_nodes" =>[],
+                "connected_clients" => [],
+
+            ];
+            file_put_contents($GLOBALS["base_path"] ."/node/" . self::ROUTING_FILE, json_encode($data));
+        }
+        if(!is_file($GLOBALS["base_path"] ."/node/" . self::CONNECTED_FILE)){
+            $data = [
+                ["destination" => "x" ,"next_hop" => "x_node", "mode" => "ip" ,"mode_data" =>[]] 
+            ];
+            file_put_contents($GLOBALS["base_path"] ."/node/" . self::CONNECTED_FILE, json_encode($data));
+        }
+        if(!is_file($GLOBALS["base_path"] ."/node/" . self::LOG_FILE)){
+            $data = [
+                ["event" => "INSTALL", "data" => "Installing node", "severity" => "info", "time_stamp" => time()]
+            ];
+            file_put_contents($GLOBALS["base_path"] ."/node/" . self::LOG_FILE, json_encode($data));
+        }
+    }
     public function processInbox()
     {
         $jsonFiles = glob($this->inbox_folder . '/*.json');
