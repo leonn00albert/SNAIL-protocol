@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Beginner's Guide</title>
+    <style>
+        /* CSS styles for the page */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #666;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* CSS for a simple button */
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>CSS Beginner's Guide</h1>
+        </header>
+        <main>
+            <section>
+                <h2>What is CSS?</h2>
+                <p>CSS (Cascading Style Sheets) is a stylesheet language used to control the presentation and layout of web pages. It allows you to style HTML elements, making your web pages visually appealing.</p>
+            </section>
+
+            <section>
+                <h2>Basic CSS Syntax</h2>
+                <p>CSS uses a simple syntax consisting of selectors and declarations. Selectors target HTML elements, and declarations define the styles to be applied. For example:</p>
+                <pre>
+                    <code>
+                        p {
+                            color: #333;
+                            font-size: 18px;
+                        }
+                    </code>
+                </pre>
+            </section>
+
+            <section>
+                <h2>Adding CSS to HTML</h2>
+                <p>You can include CSS in your HTML document using the &lt;style&gt; element within the &lt;head&gt; section or by linking to an external CSS file using the &lt;link&gt; element.</p>
+                <p>Example of inline CSS:</p>
+                <pre>
+                    <code>
+                        &lt;style&gt;
+                            p {
+                                color: #333;
+                                font-size: 18px;
+                            }
+                        &lt;/style&gt;
+                    </code>
+                </pre>
+                <p>Example of external CSS:</p>
+                <pre>
+                    <code>
+                        &lt;link rel="stylesheet" href="styles.css"&gt;
+                    </code>
+                </pre>
+            </section>
+
+            <section>
+                <h2>Selectors</h2>
+                <p>Selectors are patterns that match elements in the HTML document. Common selectors include element selectors (e.g., "p"), class selectors (e.g., ".btn"), and ID selectors (e.g., "#header").</p>
+            </section>
+
+            <section>
+                <h2>Properties and Values</h2>
+                <p>CSS properties define what aspect of an element you want to style, such as "color" or "font-size." Values specify how you want to style that aspect, like "red" or "16px."</p>
+            </section>
+
+            <section>
+                <h2>CSS Box Model</h2>
+                <p>The CSS box model defines how elements are laid out on a web page. It includes properties like margin, padding, border, and content.</p>
+            </section>
+
+            <section>
+                <h2>Conclusion</h2>
+                <p>CSS is a powerful tool for web design. With a solid understanding of its basics, you can style your web pages and create visually appealing websites.</p>
+            </section>
+        </main>
+
+        <footer>
+            <a href="#" class="btn">Learn More</a>
+        </footer>
+    </div>
+</body>
+</html>
