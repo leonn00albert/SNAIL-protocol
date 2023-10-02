@@ -14,7 +14,9 @@
             
             <div style="text-align: center; width: 200px; margin: 0 auto;">
                 <h1>Node</h1>
-                <label>Node address:</label>
+                <div>Node address: <strong id="peerId"></strong></div>
+
+                
                 <input type="text" id="nodeAddress" name="node_address" value="http://localhost:8000" />
             </div>
             <x-grid columns="2" style="max-width: 750px; margin:0 auto; padding:2rem">
@@ -39,6 +41,25 @@
         </article>
     </main>
     <script src="js/node.js"></script>
+    <script src="https://unpkg.com/peerjs@1.5.1/dist/peerjs.min.js"></script>
+
+    <script>
+        var peer = new Peer('000000002',
+            {
+                host: "192.168.1.104",
+                port: 9000,
+                path: "/myapp",
+            });
+        peer.on('open', function (id) {
+            document.getElementById("peerId").innerHTML = id;
+            console.log('My peer ID is: ' + id);
+        });
+
+        peer.on('connection', function (conn) {
+            console.log("connected");
+        });
+        var conn = peer.connect('000000001');
+    </script>
 </body>
 
 </html>

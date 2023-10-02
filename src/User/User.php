@@ -8,20 +8,23 @@ class User
 {
     private string $id;
     private string $user_name;
-    private string $user_file = __DIR__ . '/../../user.json';
+    private string $user_file_path;
+    const USER_FILE = 'user.json';
+
     public function __construct()
     {
+        $this->user_file_path = $GLOBALS['base_path'] . '/' . SELF::USER_FILE;
     }
     public function createUser(string $user_name)
     {
         $this->id = uniqid();
         $this->user_name = $user_name;
-        file_put_contents($this->user_file, json_encode($this->toArray()));
+        file_put_contents($this->user_file_path, json_encode($this->toArray()));
     }
 
     public function readUser(): User
     {
-        $userData = json_decode(file_get_contents($this->user_file), true);
+        $userData = json_decode(file_get_contents($this->user_file_path), true);
         if ($userData === null) {
             throw new Exception("Error reading user data from JSON file.");
         }

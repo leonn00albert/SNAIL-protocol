@@ -10,6 +10,9 @@ use Snail\Packet\Packet;
 use Snail\Packet\Request;
 use Snail\User\User;
 use Snail\Utils\Folder;
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Origin');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $header_options = [
@@ -20,9 +23,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user = new User;
     $source = $user->readUser()->getId();
     $dir = $GLOBALS['base_path'] . "/packets/outbox/" . $source;
+
+    header('Content-Type: application/json');
     if (is_dir($dir) && !Folder::isEmpty($dir)) {
-        header('Content-Type: application/json');
+
         $jsonData = json_encode(Folder::getFileNames($dir));
+
+
         echo $jsonData;
     }
 }
