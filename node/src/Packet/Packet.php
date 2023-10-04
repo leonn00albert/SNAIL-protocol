@@ -2,7 +2,7 @@
 namespace Snail\Packet;
 
 use Exception;
-use Snail\User\User;
+use Snail\Node\Node;
 use Snail\Zip\Zip;
 
 class Packet {
@@ -19,8 +19,8 @@ class Packet {
     public function __construct(?object $data = null)
     {
 
-        $user = new User();
-        $this->source = $data->source ??$user->readUser()->getId();
+        $node = new Node();
+        $this->source = $data->source ??$node->read()->getId();
         $this->destination = $data->destination ?? "aaaaaa";
         $this->id = $data->id ?? uniqid();
         $this->destination_folder = $GLOBALS['base_path'] . "/packets/outbox/" . $this->destination;
@@ -61,7 +61,10 @@ class Packet {
         $this->setJsonFile($packet);
 
     }
-
+    public function deleteInboxPacketJson():bool
+    {
+        return unlink($GLOBALS['base_path'] . "/packets/inbox/" . $this->packet_json_file_path);
+    }
     private function getJsonFile():object 
     {
         $packet_json = file_get_contents($GLOBALS['base_path'] . "/packets/inbox/" . $this->packet_json_file_path);

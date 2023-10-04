@@ -3,7 +3,7 @@
 
 <head>
     <title>Node</title>
-    <link rel="stylesheet" href="/css/skelet.css">
+    <link rel="stylesheet" href="/css/skelet.min.css">
     <link rel="stylesheet" href="/css/app.css">
 
 </head>
@@ -20,15 +20,28 @@
                 </ul>
             </nav>
         </div>
+       
 
-        <div style="text-align: center; width: 500px; margin: 0 auto;">
+        <article>
 
-            <h1 style="text-align: center">Node #1</h1>
-            <div>Node address: <strong id="peerId"></strong></div>
-            <input type="text" id="nodeAddress" name="node_address" value="http://192.168.1.104:8000" />
-        </div>
-        <article style="text-align: center; width: 500px; margin: 1em auto;"> 
-                <button id="createStarterPack">Get Starter Pack</button>
+            <x-grid columns="2" style="max-width: 750px; margin:0 auto; padding:2rem">
+                <x-col span-s="row">
+                    <h3>Node Network</h3>
+                    <ul id="requestDisplay">
+
+                    </ul>
+
+                </x-col>
+                <x-col span-s="row">
+                    <h3>P2P Network</h3>
+                    <ul id="responseDisplay">
+
+                    </ul>
+                </x-col>
+   
+
+            </x-grid>
+
         </article>
     </main>
     <script src="/js/modules/node.js"></script>
