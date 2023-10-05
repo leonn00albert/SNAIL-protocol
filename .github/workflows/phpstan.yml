@@ -25,5 +25,5 @@ jobs:
       run: composer install
 
     - name: Run PHPStan
-      run: phpstan analyze --level 5 --no-progress --no-interaction ./node
+      run: ./vendor/phpstan/phpstan/phpstan  analyze --level 5 --no-progress --no-interaction ./node
 
