@@ -7,6 +7,7 @@ use Snail\Packet\Request;
 use Snail\Packet\Resource;
 use Snail\Packet\Response;
 use Snail\Utils\Folder;
+use Exception;
 
 class Node
 {
@@ -18,7 +19,7 @@ class Node
     const CONNECTED_FILE = 'connected.json';
     const LOG_FILE = 'log.json';
     public static function create() {
-        if(!is_file($GLOBALS["base_path"] ."/node/" . self::NODE_FILE)){
+        if(!is_file($GLOBALS["base_path"] ."/config/" . self::NODE_FILE)){
             $data = [
                 'id' => uniqid(),
                 'type' => 'individual',
@@ -28,28 +29,42 @@ class Node
                 'disconnect_time' => (24  * 7),
                 'last_sync' => "",
             ];
-            file_put_contents($GLOBALS["base_path"] ."/node/" . self::NODE_FILE, json_encode($data));
+            file_put_contents($GLOBALS["base_path"] ."/config/" . self::NODE_FILE, json_encode($data));
         }
-        if(!is_file($GLOBALS["base_path"] ."/node/" . self::ROUTING_FILE)){
+        if(!is_file($GLOBALS["base_path"] ."/config/" . self::ROUTING_FILE)){
             $data = [
                 "connected_nodes" =>[],
                 "connected_clients" => [],
 
             ];
-            file_put_contents($GLOBALS["base_path"] ."/node/" . self::ROUTING_FILE, json_encode($data));
+            file_put_contents($GLOBALS["base_path"] ."/config/" . self::ROUTING_FILE, json_encode($data));
         }
-        if(!is_file($GLOBALS["base_path"] ."/node/" . self::CONNECTED_FILE)){
+        if(!is_file($GLOBALS["base_path"] ."/config/" . self::CONNECTED_FILE)){
             $data = [
                 ["destination" => "x" ,"next_hop" => "x_node", "mode" => "ip" ,"mode_data" =>[]] 
             ];
-            file_put_contents($GLOBALS["base_path"] ."/node/" . self::CONNECTED_FILE, json_encode($data));
+            file_put_contents($GLOBALS["base_path"] ."/config/" . self::CONNECTED_FILE, json_encode($data));
         }
-        if(!is_file($GLOBALS["base_path"] ."/node/" . self::LOG_FILE)){
+        if(!is_file($GLOBALS["base_path"] ."/config/" . self::LOG_FILE)){
             $data = [
                 ["event" => "INSTALL", "data" => "Installing node", "severity" => "info", "time_stamp" => time()]
             ];
-            file_put_contents($GLOBALS["base_path"] ."/node/" . self::LOG_FILE, json_encode($data));
+            file_put_contents($GLOBALS["base_path"] ."/config/" . self::LOG_FILE, json_encode($data));
         }
+    }
+    public function read(): Node
+    {
+        $nodeData = json_decode(file_get_contents($GLOBALS["base_path"] ."/config/" . self::NODE_FILE), true);
+        if ($nodeData === null) {
+            throw new Exception("Error reading user data from JSON file.");
+        }
+        $this->id = $nodeData['id'];
+
+        return $this;
+    }
+    public function getId() :string
+    {
+        return $this->id;
     }
     public function processInbox()
     {
@@ -81,9 +96,9 @@ class Node
                         $packet->createPacket();
                         $packet->addResponse(new Response($packet,$resource,  $header) );
                         $packet->writeFiles();
-                        Folder::copy($resource_address, $packet->packet_file_path . "/data");
-                        $packet->zip();
-                        $packet->clear();
+                        $packet->deleteInboxPacketJson();
+                        Folder::copy($resource_address, $packet->packet_file_path . "/" . end(explode("/",$resource->resource_path)));
+                  
                     }else{
                         $header = [
                             'status' => 300,
@@ -96,9 +111,9 @@ class Node
                         $resource = new Resource($requestData->resource->resource_id, $requestData->resource->resource_type,);
                         $resource->resource_path = $requestData->destination;
                         $packet->addResponse(new Response($packet,$resource, $header) );
+                        $packet->deleteInboxPacketJson();
+
                         $packet->writeFiles();
-                        //$packet->zip();
-                        //$packet->clear();
                     }
 
                 }

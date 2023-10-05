@@ -6,16 +6,19 @@ use DirectoryIterator;
 use Snail\Packet\Packet;
 
 class Zip {
-    public static function zipFolder(Packet $packet)
+    public static function zipFolder($dir)
     {
         $zip = new ZipArchive();
-        if ($zip->open($packet->packet_file_path . "_" . $packet->destination . ".zip", ZipArchive::CREATE) === TRUE) {
-            self::addFolderToZip($packet->packet_file_path, $zip, $GLOBALS["base_path"] ."/packets/outbox/");
-            $zip->close();
-           
-        } else {
-            throw new Exception("Failed to create zip file");
-        }
+      
+            if ($zip->open($dir. ".zip", ZipArchive::CREATE) === TRUE) {
+                self::addFolderToZip($dir, $zip, $GLOBALS["base_path"] ."/packets/outbox/");
+                $zip->close();
+               
+            } else {
+                throw new Exception("Failed to create zip file");
+            }
+     
+  
     }
 
     private static function addFolderToZip($folder, $zip, $basePath = '') {
