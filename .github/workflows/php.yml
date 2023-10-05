@@ -15,8 +15,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
 
+      
+    - uses: actions/checkout@v3
+    
+    - name: Check node folder
+      run: cd node
+       
     - name: Validate composer.json and composer.lock
       run: composer validate --strict
 
