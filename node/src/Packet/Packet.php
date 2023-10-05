@@ -9,8 +9,8 @@ class Packet {
     private string $id;
     public string $destination;
     private string $source;
-    private string $data;
-    private string $checksum;
+    //private string $data;
+    //private string $checksum;
     public string $packet_file_path;
     public string $packet_json_file_path;
     public string $destination_folder;
@@ -141,5 +141,9 @@ class Packet {
         } else {
             return false;
         }
+    }
+
+    public function getId() {
+        return $this->id;
     }
 }

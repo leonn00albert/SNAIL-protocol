@@ -1,14 +1,16 @@
-<?php 
+<?php
+
 namespace Snail\Packet;
 
-class Response {
+class Response
+{
     private string $id;
     private string $status;
     private string $source;
     private string $destination;
     const  FILE_NAME = 'response.json';
 
-    public function __construct(private Packet $packet, private Resource $resource , array $header_options)
+    public function __construct(private Packet $packet, private Resource $resource, array $header_options)
     {
         $this->id = uniqid();
         $this->resource = $resource;
@@ -20,20 +22,24 @@ class Response {
 
     public static function createFile(array $data, string $path)
     {
-    
-        file_put_contents($path. "/" . Response::FILE_NAME,json_encode($data));
-        
+
+        file_put_contents($path . "/" . Response::FILE_NAME, json_encode($data));
     }
 
-    public function buildHeader():array{
+    public function buildHeader(): array
+    {
         return [
-        "id" => $this->id,
-        "resource_type" => $this->resource->resource_type,
-        "resource_id" => $this->resource->resource_id,
-        "resource_path" => $this->resource->resource_path,
-        "destination" => $this->destination,
-        "source" => $this->source,
-        "status" => $this->status,
+            "id" => $this->id,
+            "resource_type" => $this->resource->resource_type,
+            "resource_id" => $this->resource->resource_id,
+            "resource_path" => $this->resource->resource_path,
+            "destination" => $this->destination,
+            "source" => $this->source,
+            "status" => $this->status,
         ];
+    }
+    public function getPacket()
+    {
+        return $this->packet;
     }
 }
