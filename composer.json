@@ -5,11 +5,13 @@
             "Snail\\": "src/"
         }
     },
+    "description": "The SNAIL Protocol is a unique approach to internet usage that intentionally introduces controlled delays in network access. By doing so, it encourages users to consume online content more deliberately, promoting a more meaningful and valuable internet experience while addressing the challenges of rapid consumption.",
     "authors": [
         {
             "name": "leon",
             "email": "leona202307@proton.me"
         }
     ],
+    "license" : "MIT License",
     "require": {}
 }
