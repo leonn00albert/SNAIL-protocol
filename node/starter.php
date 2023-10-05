@@ -1,5 +1,4 @@
 <?php
-// Assuming you have created a ZIP file named "starter_pack.zip" on the server
 $zipFilePath = './snail_starter_pack.zip';
 
 if (file_exists($zipFilePath)) {
@@ -8,7 +7,7 @@ if (file_exists($zipFilePath)) {
     header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Content-Disposition', "Content-Length" );
     header('Content-Type: application/zip');
     header('Content-Disposition: attachment; filename="starter_pack.zip"');
-    header('Content-Length: ' . filesize($zipFilePath));
+    header("Content-Length: " .  filesize($zipFilePath));
 
     readfile($zipFilePath);
 } else {

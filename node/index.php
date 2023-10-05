@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $zip_file = $GLOBALS['base_path'] . "/packets/outbox/" . $source . ".zip";
         header('Access-Control-Allow-Origin: *');
         header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
-        header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Content-Disposition', "Content-Length" );
+        header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Content-Disposition, Content-Length' );
         header('Content-Type: application/zip');
         header('Content-Disposition: attachment; filename="starter_pack.zip"');
         header('Content-Length: ' . filesize($zip_file)); 

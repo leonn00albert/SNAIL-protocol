@@ -13,7 +13,7 @@ class Node
 {
     private string $id;
     private string $inbox_folder = __DIR__ . "/../../packets/inbox";
-    private string $outbox_folder = __DIR__ . "/../../packets/outbox";
+    //private string $outbox_folder = __DIR__ . "/../../packets/outbox";
     const NODE_FILE = 'node.json';
     const ROUTING_FILE = 'routing.json';
     const CONNECTED_FILE = 'connected.json';
@@ -97,7 +97,8 @@ class Node
                         $packet->addResponse(new Response($packet,$resource,  $header) );
                         $packet->writeFiles();
                         $packet->deleteInboxPacketJson();
-                        Folder::copy($resource_address, $packet->packet_file_path . "/" . end(explode("/",$resource->resource_path)));
+                        $pathArray = explode("/", $resource->resource_path);
+                        Folder::copy($resource_address, $packet->packet_file_path . "/" . end($pathArray));
                   
                     }else{
                         $header = [
