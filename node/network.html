@@ -20,13 +20,15 @@
                 </ul>
             </nav>
         </div>
-       
+
 
         <article>
 
             <x-grid columns="2" style="max-width: 750px; margin:0 auto; padding:2rem">
                 <x-col span-s="row">
                     <h3>Node Network</h3>
+               
+
                     <ul id="requestDisplay">
 
                     </ul>
@@ -34,11 +36,13 @@
                 </x-col>
                 <x-col span-s="row">
                     <h3>P2P Network</h3>
-                    <ul id="responseDisplay">
+                    <p>Node ID: <span id="peerId"></span></p>
+                    <p>Connected Devices</p>
+                    <ul id="peerNetworkDisplay">
 
                     </ul>
                 </x-col>
-   
+
 
             </x-grid>
 
@@ -48,21 +52,32 @@
 
     <script src="https://unpkg.com/peerjs@1.5.1/dist/peerjs.min.js"></script>
     <script>
-        var peer = new Peer('000000002',
-            {
-                host: "192.168.1.104",
-                port: 9000,
-                path: "/myapp",
-            });
-        peer.on('open', function (id) {
-            document.getElementById("peerId").innerHTML = id;
-            console.log('My peer ID is: ' + id);
-        });
+var peer = new Peer('000000002', {
+    host: "192.168.1.104",
+    port: 9000,
+    path: "/myapp",
+});
 
-        peer.on('connection', function (conn) {
-            console.log("connected");
-        });
-        var conn = peer.connect('dest-peer-id');
+peer.on('open', function (id) {
+    document.getElementById("peerId").innerHTML = id;
+    console.log('My peer ID is: ' + id);
+});
+peer.on('connection', function (conn) {
+    let list = document.getElementById("peerNetworkDisplay");
+        let li = document.createElement("li");
+        li.textContent = conn.peer;
+        list.appendChild(li);
+        console.log(peer.connections);
+    });
+
+
+
+peer.on('error', function (error) {
+    console.log('PeerJS error:', error);
+});
+
+
+
     </script>
 </body>
 
