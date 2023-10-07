@@ -8,14 +8,17 @@ class Node {
 
     constructor() {
         const url = new URL(window.location.href);
-        console.log(url)
-        this.#addressInput.value = url.protocol + "//" + url.hostname + ":" + url.port;
-        this.address = this.#addressInput.value;
+        if (this.#addressInput) {
+ 
+            this.#addressInput.value = url.protocol + "//" + url.hostname + ":" + url.port;
+          }
+        this.address = this.#addressInput?.value;
 
         this.setupEventListeners();
 
     }
     setupEventListeners() {
+   
         this.#requestButton?.addEventListener("click", () => this.sendRequests());
         this.#createStaterPack?.addEventListener("click", () => this.generateStarterPack());
         this.#addressInput?.addEventListener("change", (event) => this.address = event.target.value);
@@ -187,7 +190,7 @@ class Node {
 
 window.addEventListener('load', function () {
     const node = new Node()
-    node.getRequests();
-    node.displayRequestedResources();
+    // node.getRequests();
+    //node.displayRequestedResources();
 
 });
